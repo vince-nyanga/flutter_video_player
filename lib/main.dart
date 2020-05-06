@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-void main() => runApp(MyApp());
+import 'models/models.dart';
+import 'pages/pages.dart';
+import 'services/services.dart';
+
+void main() {
+  runApp(RepositoryProvider<VideoControllerService>(
+    create: (context) => CachedVideoControllerService(DefaultCacheManager()),
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Video Player',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: VideoPage(
+        video: Video(
+          title: 'Fluttering Butterfly',
+          url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+        ),
+      ),
     );
   }
 }
